@@ -13,7 +13,13 @@ Ensure:
 -Proper foreign key relationships (e.g., ItemMaster.CategoryId → CategoryMaster.CategoryId)
 -Use IDENTITY for auto-incremented primary keys where applicable
 
-2. Create a User-Defined Function
+2. Create a stored procedure that inserts data into the following three tables in a single operation:
+
+-CategoryMaster
+-ItemMaster
+-CoupenMaster
+
+3. Create a User-Defined Function
 
 Develop a scalar-valued function that calculates the total price using:
 This function should take three inputs:
@@ -23,7 +29,7 @@ Quantity (INT)
 GST (%)
 And return the final computed amount.
 
-3. Create a Stored Procedure to Handle Orders
+4. Create a Stored Procedure to Handle Orders
 -Build a stored procedure InsertIntoOrderAndOrderDetails that accepts:
 
 @ItemId (INT)
