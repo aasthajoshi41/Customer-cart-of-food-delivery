@@ -1,0 +1,56 @@
+1. Create Normalized Tables
+
+Design the following tables with appropriate constraints:
+
+CategoryMaster: Holds food categories (e.g., Fast Food, Healthy)
+ItemMaster: Stores item details including price, GST, and links to categories
+CoupenMaster: Stores available coupon codes with discount percentage and expiry date
+OrderMaster: Records individual order summaries including delivery charge and total
+OrderDetails: Tracks each item ordered along with quantity and total
+
+Ensure:
+
+-Proper foreign key relationships (e.g., ItemMaster.CategoryId → CategoryMaster.CategoryId)
+-Use IDENTITY for auto-incremented primary keys where applicable
+
+2. Create a User-Defined Function
+
+Develop a scalar-valued function that calculates the total price using:
+This function should take three inputs:
+
+Price (DECIMAL)
+Quantity (INT)
+GST (%)
+And return the final computed amount.
+
+3. Create a Stored Procedure to Handle Orders
+-Build a stored procedure InsertIntoOrderAndOrderDetails that accepts:
+
+@ItemId (INT)
+@Quantity (INT)
+Optional @CouponId (INT)
+
+And performs the following:
+
+Validations:
+
+-Ensure the item exists and is marked active
+-Check that the item's category is also active
+-If a coupon is provided, check if it exists and is not expired
+
+Business Logic:
+
+-Use the UDF to calculate subtotal
+-Calculate delivery charges based on subtotal:
+  > ₹1000 → No charge
+  ₹500–₹1000 → ₹50
+  < ₹500 → ₹80
+
+-Apply coupon discount (if valid)
+-Calculate final total: FinalTotal = SubTotal - Discount + DeliveryCharge
+
+Data Insertion:
+
+-Insert a record into OrderMaster with the calculated values
+-Retrieve the generated Order ID using SCOPE_IDENTITY()
+-Insert the item details into OrderDetails using the retrieved Order ID
